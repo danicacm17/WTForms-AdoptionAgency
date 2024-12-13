@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="text-center">Update Pet</h1>
+
+{% if pet.photo_url %}
+<div class="text-center">
+  <img class="img-fluid rounded mb-4" src="{{ pet.photo_url }}" alt="{{ pet.name }}" style="max-width: 150px; height: 150px; object-fit: cover;">
+</div>
+{% endif %}
+
+<h2 class="text-center">{{ pet.name }}</h2>
+
+<div class="container d-flex justify-content-center align-items-center">
+  <!-- Form for updating pet -->
+  <form method="POST" class="mb-4 w-50">
+    {{ form.hidden_tag() }}
+    {% for field in form 
+      if field.widget.input_type != 'hidden' %}
+    <div class="mb-3">
+      {{ field.label(class="form-label") }}
+        {% if field.type == 'BooleanField' %}
+            {{ field(class="form-check-input") }}
+        {% else %}
+            {{ field(class="form-control") }}
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <!-- Update Button -->
+    <button class="btn btn-primary w-20 me-2" type="submit">Update</button>
+
+  </form>
+
+  <div class="d-flex justify-content-start mt-auto" style="position: absolute; bottom: -21px; left: 730px;">
+    <!-- Form for deleting pet -->
+    <form method="POST" action="/{{ pet.id }}/delete">
+      <button class="btn btn-danger w-20" type="submit">Delete</button>
+    </form>
+  </div>
+
+</div>
+
+{% endblock %}
